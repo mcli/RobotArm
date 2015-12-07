@@ -8,7 +8,7 @@
  * 
  * Let's use 9, 10, and 11 to control the two VEX and HS-422 motors
  */
-#include <WiiChuckI2C.h>
+#include <NunchuckController.h>
 #include <I2C.h>
 #include <microM.h>
 #include <Servo.h>
@@ -24,13 +24,13 @@ void setup()
   servo10.attach(10);
   servo11.attach(11);
   
-  int status=wiiChuckI2C.init(); // initialize nunchuck
+  int status=nunchuckCtl.init(); // initialize nunchuck
   if (0 != status)
   {
-    Serial.println("Error initializing wiiChuckI2C");
+    Serial.println("Error initializing nunchuckCtl");
   }
 
-  wiiChuckI2C.calibrateJoyCenter();
+  nunchuckCtl.calibrateJoyCenter();
 }
 
 void loop()
@@ -38,13 +38,13 @@ void loop()
   static int count=0;
   static int lastStatus=-1;
 
-  WiiChuckButton button;
+  NunchuckButton button;
   
   int accel[3]={0};
   int joy[2]={0};
 
   // read the nunchuck data
-  int readStatus=wiiChuckI2C.read(joy, accel, button);
+  int readStatus=nunchuckCtl.read(joy, accel, button);
 
   if (0==readStatus)            // print the data if retrieval was successful
   {
